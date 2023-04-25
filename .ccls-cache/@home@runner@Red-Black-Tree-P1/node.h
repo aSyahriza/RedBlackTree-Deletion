@@ -16,8 +16,8 @@ public:
   Node* getLeft();
   Node* getRight();
   Node* getParent();
-
   
+    
 private:
   // 0 = black
   // 1 = red
@@ -26,4 +26,4 @@ private:
   Node* left;
   Node* right;
   Node* parent;
-}
+};
