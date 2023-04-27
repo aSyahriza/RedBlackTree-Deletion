@@ -234,6 +234,7 @@ void Tree::rotate(Node* current, int recurseCount){
     }
      // 2: Right
     else{
+      
       // Rotate Left
       tempGrandParent->setRight(current);
       tempParent->setRight(current->getLeft());

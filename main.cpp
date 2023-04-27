@@ -16,6 +16,7 @@ int main() {
 
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
   cout << "Try: 170, 40, 45" << endl;
+  cout << "Try: 170" << endl;
   cout << "\n" << endl;
 
   char* name = new char[20];

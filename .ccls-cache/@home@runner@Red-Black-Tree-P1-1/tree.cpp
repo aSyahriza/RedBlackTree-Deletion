@@ -177,6 +177,7 @@ void Tree::fixReds(Node* current){
       tempGrandParent->getRight()->setColor(0);
       tempGrandParent->getLeft()->setColor(0);
       cout << "orange" << endl;
+
       print();
       if(current->getValue()==45){
         cout << "current1: " << current->getValue() << endl;
@@ -186,12 +187,20 @@ void Tree::fixReds(Node* current){
       }
       // Checks if created another instance of consecutive reds
       rotate(current->getParent()->getParent()->getParent(),0);
+
+      // Checks if created another instance of consecutive reds
+      rotate(current->getParent()->getParent(),0);
+
       
     }
     else{
       cout << "bean" << endl;
       print();
+
       rotate(current->getParent(),0);
+
+      rotate(current,0);
+
     }
    
     
@@ -207,6 +216,7 @@ void Tree::fixReds(Node* current){
 
 
 void Tree::rotate(Node* current, int recurseCount){
+
   
   cout << "m"<< endl;
   if(current == NULL){
@@ -221,11 +231,14 @@ void Tree::rotate(Node* current, int recurseCount){
   // 0 = left, 
   // 1 = right
   bool grandparentDirection;
+
+
   if(current==root){
     cout << "1" << endl;
     return;
   }
   // Gotta do something. will figure out later
+
   
   cout << "3" << endl;
 
@@ -256,6 +269,22 @@ void Tree::rotate(Node* current, int recurseCount){
      cout << "A" << endl;
     // 2: Left
     if(current->getLeft()->getColor()==1){
+
+  if(current->getParent()==root){
+    cout << "2" << endl; 
+    return;
+  }
+  cout << "3" << endl;
+  Node* tempGrandParent = current->getParent()->getParent();
+  Node* tempParent = current->getParent();
+
+  cout << "granny: " << tempGrandParent->getValue() << endl;
+   cout << "pawpaw: " << tempParent->getValue() << endl;
+  // 1: Left, 
+  if(tempGrandParent->getLeft()==tempParent || recurseCount == 1){
+     cout << "A" << endl;
+    // 2: Left
+    if(tempParent->getLeft()==current){
        cout << "B" << endl;
       // Still need to implement roots, look at doc and visualizer
       // Rotate Right
