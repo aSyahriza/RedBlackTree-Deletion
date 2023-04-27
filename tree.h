@@ -10,7 +10,7 @@ public:
   void add(int);
   void addFile(char* fileName);
   void print();
-  void recursePrint(Node*, int);
+  void recursePrint(Node*, Node*, int);
   void fixReds(Node*);
   void rotate(Node*,int);
 

@@ -8,62 +8,7 @@ Tree::Tree(){
 Tree::~Tree(){
   delete root;
 }
-void Tree::add(int pValue){
-  int count = 0;
-  Node* newNode = new Node(pValue);
-  Node* temp = root;
-  // Iterate to the node that will become the parent of newNode
-  while(true){
-    if(temp != NULL){
-      cout << "temp: " << temp->getValue() << endl;
-    }
-    if(numOfNodes == 0){
-      root = newNode;
-      numOfNodes++;
-      break;
-    }
-    count++; 
-    if(temp->getValue()>=newNode->getValue()){
-      if(temp->getLeft()!=NULL){
-        temp=temp->getLeft();
-        continue;
-      }
-      else{
-        temp->setLeft(newNode);
-        numOfNodes++;
-        break;
-      }
-    }
-    else if(temp->getValue()<newNode->getValue()){
-      if(temp->getRight()!=NULL){
-        temp=temp->getRight();
-        continue;
-      }
-      else{
-        temp->setRight(newNode);
-        numOfNodes++;
-        break;
-      }
-    }  
-  }
-  count++; 
-  // Keeps track of the number of levels of tree
-  if(count > totalLevels){
-    totalLevels = count;
-  }
-  cout << "Count2: " << totalLevels << endl;
-  
 
-  
-  ///////////////// fixReds(newNode);
-  
-  
-  
-  // This gonna be hella long
-
-  // Recursive function to traverse or maybe use iteration idk
-    
-}  
 void Tree::addFile(char* fileName){
   // Checks if file exists
   ifstream tempFile;
@@ -92,19 +37,19 @@ void Tree::print(){
     cout <<"List is empty." << "\n" << endl;
     return;
   }
-  recursePrint(root, 0);
+  recursePrint(root, NULL, 0);
 }
 
-void Tree::recursePrint(Node* current,int currentLevel){
+void Tree::recursePrint(Node* current,Node* prev,int currentLevel){
   // Recurse into right child
   int newLevel = currentLevel + 1;
-  if(currentLevel != totalLevels&& current!=NULL){
-    recursePrint(current->getRight(), newLevel);
+  if(currentLevel != totalLevels && current !=NULL){
+    recursePrint(current->getRight(), current,newLevel);
   }
-  // Causes print to be more accurately spaced, but also becomes too spaced out in some cases
-  if(current==NULL){
+  /// Remove prev!=NULL to make spacing more accurate (but too spaced out)
+  if(current==NULL&&prev!=NULL){
     if(currentLevel != totalLevels){
-      recursePrint(NULL,newLevel);
+      recursePrint(NULL,current,newLevel);
     }
   }
 
@@ -114,45 +59,137 @@ void Tree::recursePrint(Node* current,int currentLevel){
   }
   //Prints value
   if(current!=NULL){
-    if(current->getValue()<1000)
-      cout << current->getValue()<< endl;
+    if(current->getValue()<1000){
+      // Cout color 
+      cout << current->getValue(); 
+      if(current->getColor()==0){
+        cout << "B" << endl;
+      }
+      else{
+        cout << "R" << endl;
+      }
+    }
   }
-  else{
+  // Prints null pointers
+  else if(prev!=NULL){
     cout << "N" << endl;
   }
+  
+  else{
+    cout << endl;
+  }
+  
 
   //Traverse into left child
   if(currentLevel != totalLevels&&current!=NULL){
-    recursePrint(current->getLeft(), newLevel);
+    recursePrint(current->getLeft(),current, newLevel);
   }
-  
-  if(current==NULL){
+
+  // Remove prev!=NULL to make spacing more accurate (but too spaced out)
+  if(current==NULL&&prev!=NULL){
     if(currentLevel != totalLevels){
-      recursePrint(NULL,newLevel);
+      recursePrint(NULL,current,newLevel);
     }
   }
 
   
 }
 
+void Tree::add(int pValue){
+  int count = 0;
+  Node* newNode = new Node(pValue);
+  Node* temp = root;
+  // Iterate to the node that will become the parent of newNode
+  while(true){
+    if(temp != NULL){
+      cout << "temp: " << temp->getValue() << endl;
+    }
+    if(numOfNodes == 0){
+      root = newNode;
+      numOfNodes++;
+      newNode->setColor(0);
+      break;
+    }
+    count++; 
+    // Iterates through binary tree until it reaches where 
+    // the new node should be
+    if(temp->getValue()>=newNode->getValue()){
+      if(temp->getLeft()!=NULL){
+        temp=temp->getLeft();
+        continue;
+      }
+      else{
+        temp->setLeft(newNode);
+        newNode->setParent(temp);
+        numOfNodes++;
+        break;
+      }
+    }
+    else if(temp->getValue()<newNode->getValue()){
+      if(temp->getRight()!=NULL){
+        temp=temp->getRight();
+        continue;
+      }
+      else{
+        temp->setRight(newNode);
+        newNode->setParent(temp);
+        numOfNodes++;
+        break;
+      }
+    }  
+  }
+  count++; 
+  // Keeps track of the number of levels of tree
+  if(count > totalLevels){
+    totalLevels = count;
+  }
+  
+  cout << "Count2: " << totalLevels << endl;
+  
+
+  
+  fixReds(newNode);
+  root->setColor(0);
+  
+  
+  
+  // This gonna be hella long
+
+  // Recursive function to traverse or maybe use iteration idk
+    
+}  
+
 void Tree::fixReds(Node* current){
+  cout << "PK: " << current->getValue() << endl;
+  
+  // Returns if root or child of root
+  if(current==root||current->getParent()==root){
+    return;
+  }
+  cout << "PK Parent: " << current->getParent()->getValue() << endl;
   Node* tempParent = current->getParent();
   Node* tempGrandParent = current->getParent()->getParent();
   // If both parent and child are red
   if((current->getColor() == 1 && tempParent->getColor() == 1)){
     // If uncle is red too
-    if(tempGrandParent->getRight()->getColor()==1 && tempGrandParent->getLeft()->getColor()==1){
+    if((tempGrandParent->getRight()!=NULL && tempGrandParent->getLeft()!=NULL)&&(tempGrandParent->getRight()->getColor()==1 && tempGrandParent->getLeft()->getColor()==1)){
       tempGrandParent->setColor(1);
       tempGrandParent->getRight()->setColor(0);
       tempGrandParent->getLeft()->setColor(0);
+      cout << "orange" << endl;
+      // Checks if created another instance of consecutive reds
+      rotate(current->getParent()->getParent(),0);
+      
     }
     else{
-      while(true){
-        
-      }
+      cout << "bean" << endl;
+      print();
+      rotate(current,0);
     }
-    // Checks if created another instance of consecutive reds
-    rotate(current->getParent()->getParent(),0);
+   
+    
+    
+    
   } 
   // Parent and child not red
   else{
@@ -163,13 +200,27 @@ void Tree::fixReds(Node* current){
 
 
 void Tree::rotate(Node* current, int recurseCount){
-  /*
-  Node* tempParent = current->getParent();
+  if(current==root){
+    cout << "1" << endl;
+    return;
+  }
+  // Gotta do something. will figure out later
+  if(current->getParent()==root){
+    cout << "2" << endl; 
+    return;
+  }
+  cout << "3" << endl;
   Node* tempGrandParent = current->getParent()->getParent();
+  Node* tempParent = current->getParent();
+
+  cout << "granny: " << tempGrandParent->getValue() << endl;
+   cout << "pawpaw: " << tempParent->getValue() << endl;
   // 1: Left, 
   if(tempGrandParent->getLeft()==tempParent || recurseCount == 1){
+     cout << "A" << endl;
     // 2: Left
     if(tempParent->getLeft()==current){
+       cout << "B" << endl;
       // Still need to implement roots, look at doc and visualizer
       // Rotate Right
       tempGrandParent->setLeft(current);
@@ -183,6 +234,7 @@ void Tree::rotate(Node* current, int recurseCount){
     }
      // 2: Right
     else{
+      
       // Rotate Left
       tempGrandParent->setRight(current);
       tempParent->setRight(current->getLeft());
@@ -218,5 +270,4 @@ void Tree::rotate(Node* current, int recurseCount){
     }
   }
   return;
-  */
 }
