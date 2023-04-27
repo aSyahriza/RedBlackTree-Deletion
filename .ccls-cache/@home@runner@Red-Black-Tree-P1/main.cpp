@@ -15,6 +15,7 @@ int main() {
   char* fileName = new char[20];
 
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
+  cout << "Try: 170" << endl;
   cout << "\n" << endl;
   
   while(loop){
