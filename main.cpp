@@ -1,3 +1,12 @@
+/*
+* Author: Allam Syahriza 
+* Date: 4/29/23
+* Project: Red Black Tree: Insertion
+* Creates a red black binary tree with insertion functions 
+*/
+
+
+
 #include <iostream>
 #include <cstring>
 
@@ -15,8 +24,6 @@ int main() {
   char* fileName = new char[20];
 
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
-  cout << "Try: 170, 40, 45" << endl;
-  cout << "Try: 170" << endl;
   cout << "\n" << endl;
 
   char* name = new char[20];
@@ -34,6 +41,7 @@ int main() {
       int num;
       cin >> num;
       myTree.add(num);
+      
       cout << "Value has been added." << endl;
       cout << "\n";
     }

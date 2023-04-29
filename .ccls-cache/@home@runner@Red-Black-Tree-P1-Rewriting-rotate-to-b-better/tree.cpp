@@ -34,7 +34,7 @@ void Tree::addFile(char* fileName){
 }  
 void Tree::print(){
   if(numOfNodes==0){
-    cout <<"List is empty." << "\n" << endl;
+    cout <<"Tree is empty." << "\n" << endl;
     return;
   }
   recursePrint(root, NULL, 0);
@@ -46,7 +46,6 @@ void Tree::recursePrint(Node* current,Node* prev,int currentLevel){
   if(currentLevel != totalLevels && current !=NULL){
     recursePrint(current->getRight(), current,newLevel);
   }
-  /// Remove prev!=NULL to make spacing more accurate (but too spaced out)
   if(current==NULL&&prev!=NULL){
     if(currentLevel != totalLevels){
       recursePrint(NULL,current,newLevel);
@@ -99,11 +98,9 @@ void Tree::add(int pValue){
   int count = 0;
   Node* newNode = new Node(pValue);
   Node* temp = root;
+
   // Iterate to the node that will become the parent of newNode
   while(true){
-    if(temp != NULL){
-      cout << "temp: " << temp->getValue() << endl;
-    }
     if(numOfNodes == 0){
       root = newNode;
       numOfNodes++;
@@ -144,77 +141,60 @@ void Tree::add(int pValue){
     totalLevels = count;
   }
   
-  cout << "Count2: " << totalLevels << endl;
   
 
-  
+  // Finds if red black rule has just been broken, fixes
   fixReds(newNode);
+  // Root is always black
   root->setColor(0);
-  
-  
-  
-  // This gonna be hella long
-
-  // Recursive function to traverse or maybe use iteration idk
-    
 }  
 
 void Tree::fixReds(Node* current){
-  cout << "PK: " << current->getValue() << endl;
   
   // Returns if root or child of root
-  // Figure out ehat to do if grandchild of root
   if(current==root||current->getParent()==root){
     return;
   }
-  cout << "PK Parent: " << current->getParent()->getValue() << endl;
   Node* tempParent = current->getParent();
   Node* tempGrandParent = current->getParent()->getParent();
   // If both parent and child are red
   if((current->getColor() == 1 && tempParent->getColor() == 1)){
     // If uncle is red too
     if((tempGrandParent->getRight()!=NULL && tempGrandParent->getLeft()!=NULL)&&(tempGrandParent->getRight()->getColor()==1 && tempGrandParent->getLeft()->getColor()==1)){
+      // Pushes down blackness from grandparent
       tempGrandParent->setColor(1);
       tempGrandParent->getRight()->setColor(0);
       tempGrandParent->getLeft()->setColor(0);
-      cout << "orange" << endl;
-      print();
-      if(current->getValue()==45){
-        cout << "current1: " << current->getValue() << endl;
-        cout << "current2: " << current->getParent()->getValue() << endl;
-        cout << "current3: " << current->getParent()->getParent()->getValue() << endl;
-        cout << "current4: " << current->getParent()->getParent()->getParent()->getValue() << endl;
-      }
       // Checks if created another instance of consecutive reds
       fixReds(current->getParent()->getParent());
       
     }
+    // Consecutive reds, but uncle is black or NULL
     else{
-      cout << "bean" << endl;
-      print();
+    
       // Check which rotations should be done
       
       if(tempParent->getLeft()==current){
-        // Left leftt
+        // Parent is left child, current is left child
+        // Right rotation
         if(tempGrandParent->getLeft()==tempParent){
-          cout << "gang0" << endl;
           rotate(current->getParent(),0,0);
         }
-        // Left right
+        // Parent is left child, current is right child
+        // Right, then left rotation
         else{
-          cout << "gang1" << endl;
           rotate(current,0,1);
         }
       }
       else{
-        // Right right
+        // Parent is right child, current is right child
+        // Left rotation
         if(tempGrandParent->getRight()==tempParent){
-          cout << "gang2" << endl;
           rotate(current->getParent(),0,2);
         }
-        // RIght left
+        // Parent is right child, current is left child
+        // Left, then right rotation
         else{
-          cout << "gang3" << endl;
           rotate(current,0,3);
         }
       }
@@ -239,46 +219,17 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
   // 1 = right
   bool willBeRoot = false;
   bool grandparentDirection;
-  bool childDirection;
   
-  cout << "m"<< endl;
   if(current == NULL){
     return;
   }
-  cout << "current"<<  current->getValue() <<endl;
-  
-  cout << "h" << endl;
-  if(current->getRight()!=NULL){
-    if(current->getRight()->getColor()==1){
-      childDirection = 1;
-    }
-  }
-  else if(current->getLeft()!=NULL){
-    if(current->getLeft()->getColor()==1){
-      childDirection = 0;
-    }
-  }
-  else{
-    cout << "pr" << endl;
-    //return;
-  }
-  
-  cout << "jink" << endl;
   
   if(current==root){
-    cout << "1" << endl;
     return;
   }
-  // Gotta do something. will figure out later
-  
-  cout << "3" << endl;
 
   Node* tempGrandParent = current->getParent()->getParent();
   Node* tempParent = current->getParent();
-
-  
-  cout << "current: " << current->getValue() << endl;
-   cout << "pawpaw: " << tempParent->getValue() << endl;
 
   // If there will not be issues with root
   
@@ -292,17 +243,15 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
     else{
       grandparentDirection = 0;
     }
-    cout << "granny: " << tempGrandParent->getValue() << endl;
   }
+  // Checks if current will become the new root
   else{
     willBeRoot = true;
   }
   
   
-  // 1: Left, 
+  // 1: Current is left child
   if(rotationDir < 2){
-     cout << "A" << endl;
-    // Still need to implement roots, look at doc and visualizer
     // Rotate Right
     if(!willBeRoot){
       if(!grandparentDirection){
@@ -316,32 +265,24 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
     else{
       root = current;
     }
-    cout << "Martin" << endl;
     tempParent->setLeft(current->getRight());
-    cout << "Baby keem" << endl;
     current->setRight(tempParent);
-    cout << "Jones" << endl;
     if(tempParent->getLeft()!=NULL){
       current->getRight()->setParent(tempParent);
     }
-    cout << "Klod" << endl;
     tempParent->setParent(current);
-    cout << "!!!Yea" << endl;
     current->setColor(0);
     tempParent->setColor(1);
+    // Recurses if extra rotation is necessary
     if(rotationDir == 1){
       rotate(current,0,2);
     }
     return;
   }
-  // 2: Right Rotation
+  // 2: Current is right child
   else{
-    cout << "C" << endl;
-    
-    // Still need to implement roots, look at doc and visualizer
     // Rotate Left
     if(!willBeRoot){
-      cout << "Meehic "<< endl;
       if(!grandparentDirection){
         tempGrandParent->setLeft(current);
       }
@@ -351,12 +292,9 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
       current->setParent(tempGrandParent);
     }
     else{
-      cout << "beeno "<< endl;
       root = current;
     }
-    cout << "jeans" << endl;
     tempParent->setRight(current->getLeft());
-    cout << "naj" << endl;
     current->setLeft(tempParent);
     if(tempParent->getRight()!=NULL){
       tempParent->getRight()->setParent(tempParent);
@@ -364,7 +302,7 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
     tempParent->setParent(current);
     current->setColor(0);
     tempParent->setColor(1);
-    cout << "ham" << endl;
+    // Recurses if extra rotation is necessary
     if(rotationDir == 3){
       rotate(current,0,0);
     }
