@@ -192,12 +192,33 @@ void Tree::fixReds(Node* current){
     else{
       cout << "bean" << endl;
       print();
-      rotate(current->getParent(),0);
+      // Check which rotations should be done
+      
+      if(tempParent->getLeft()==current){
+        // Left leftt
+        if(tempGrandParent->getLeft()==tempParent){
+          cout << "gang0" << endl;
+          rotate(current->getParent(),0,0);
+        }
+        // Left right
+        else{
+          cout << "gang1" << endl;
+          rotate(current,0,1);
+        }
+      }
+      else{
+        // Right right
+        if(tempGrandParent->getRight()==tempParent){
+          cout << "gang2" << endl;
+          rotate(current->getParent(),0,2);
+        }
+        // RIght left
+        else{
+          cout << "gang3" << endl;
+          rotate(current,0,3);
+        }
+      }
     }
-   
-    
-    
-    
   } 
   // Parent and child not red
   else{
@@ -207,7 +228,13 @@ void Tree::fixReds(Node* current){
 }
 
 
-void Tree::rotate(Node* current, int recurseCount){
+void Tree::rotate(Node* current, int recurseCount, int rotationDir){
+  // Rotation Dir:
+  // Left: 0,1
+  // Left, then right: 1
+  // Right: 2, 3
+  // Right, then left: 3
+  
   // 0 = left, 
   // 1 = right
   bool willBeRoot = false;
@@ -221,9 +248,6 @@ void Tree::rotate(Node* current, int recurseCount){
   cout << "current"<<  current->getValue() <<endl;
   
   cout << "h" << endl;
-  if(current->getColor()==0){
-    return;
-  }
   if(current->getRight()!=NULL){
     if(current->getRight()->getColor()==1){
       childDirection = 1;
@@ -235,7 +259,8 @@ void Tree::rotate(Node* current, int recurseCount){
     }
   }
   else{
-    return;
+    cout << "pr" << endl;
+    //return;
   }
   
   cout << "jink" << endl;
@@ -256,6 +281,7 @@ void Tree::rotate(Node* current, int recurseCount){
    cout << "pawpaw: " << tempParent->getValue() << endl;
 
   // If there will not be issues with root
+  
   if(current->getParent()!=root){
     
    // Parent is right
@@ -271,123 +297,78 @@ void Tree::rotate(Node* current, int recurseCount){
   else{
     willBeRoot = true;
   }
+  
+  
   // 1: Left, 
-  if(tempParent->getLeft()==current || recurseCount == 1){
+  if(rotationDir < 2){
      cout << "A" << endl;
-    // 2: Left
-    if(current->getLeft()->getColor()==1){
-       cout << "B" << endl;
-      // Still need to implement roots, look at doc and visualizer
-      // Rotate Right
-      if(!willBeRoot){
-        if(!grandparentDirection){
-          tempGrandParent->setLeft(current);      
-        }
-        else{
-          tempGrandParent->setRight(current);
-        }
-        current->setParent(tempGrandParent);
+    // Still need to implement roots, look at doc and visualizer
+    // Rotate Right
+    if(!willBeRoot){
+      if(!grandparentDirection){
+        tempGrandParent->setLeft(current);      
       }
       else{
-        root = current;
+        tempGrandParent->setRight(current);
       }
-      cout << "Martin" << endl;
-      tempParent->setLeft(current->getRight());
-      cout << "Baby keem" << endl;
-      current->setRight(tempParent);
-      cout << "Jones" << endl;
-      if(tempParent->getLeft()!=NULL){
-        current->getRight()->setParent(tempParent);
-      }
-      cout << "Klod" << endl;
-      tempParent->setParent(current);
-      cout << "!!!Yea" << endl;
-      current->setColor(0);
-      tempParent->setColor(1);
-      return;
-      // If second recursion
-      // This code is weird
-      /*
-      if(recurseCount == 1){
-        current->setColor(0);
-        current->getLeft()->setColor(1);
-      }      
-      */
-    }
-     // 2: Right
-     // Needs work
-    else{
-      
-      // Rotate Left
-      tempGrandParent->setRight(current);
       current->setParent(tempGrandParent);
-      tempParent->setRight(current->getLeft());
-      if(tempParent->getRight()!=NULL){
-        current->getLeft()->setParent(tempParent);
-      }
-      current->setLeft(tempParent);
-      tempParent->setParent(current);
-      
-      if(recurseCount == 0){
-        rotate(current,1);
-      }
-      // This code is weird
-      if(recurseCount == 1){
-        current->setColor(0);
-        current->getRight()->setColor(1);
-      }
     }
+    else{
+      root = current;
+    }
+    cout << "Martin" << endl;
+    tempParent->setLeft(current->getRight());
+    cout << "Baby keem" << endl;
+    current->setRight(tempParent);
+    cout << "Jones" << endl;
+    if(tempParent->getLeft()!=NULL){
+      current->getRight()->setParent(tempParent);
+    }
+    cout << "Klod" << endl;
+    tempParent->setParent(current);
+    cout << "!!!Yea" << endl;
+    current->setColor(0);
+    tempParent->setColor(1);
+    if(rotationDir == 1){
+      rotate(current,0,2);
+    }
+    return;
   }
-  // 1: Right
+  // 2: Right Rotation
   else{
     cout << "C" << endl;
-    // 2: Right
-    if(current->getRight()->getColor()==1){
-      cout << "D" << endl;
-      // Still need to implement roots, look at doc and visualizer
-      // Rotate Left
-      if(!willBeRoot){
-        cout << "Meehic "<< endl;
-        if(!grandparentDirection){
-          tempGrandParent->setLeft(current);
-        }
-        else{
-          tempGrandParent->setRight(current);
-        }
-        current->setParent(tempGrandParent);
+    
+    // Still need to implement roots, look at doc and visualizer
+    // Rotate Left
+    if(!willBeRoot){
+      cout << "Meehic "<< endl;
+      if(!grandparentDirection){
+        tempGrandParent->setLeft(current);
       }
       else{
-        cout << "beeno "<< endl;
-        root = current;
+        tempGrandParent->setRight(current);
       }
-      cout << "jeans" << endl;
-      tempParent->setRight(current->getLeft());
-      cout << "naj" << endl;
-      current->setLeft(tempParent);
-      if(tempParent->getRight()!=NULL){
-        tempParent->getRight()->setParent(tempParent);
-      }
-      tempParent->setParent(current);
-      current->setColor(0);
-      tempParent->setColor(1);
-      cout << "ham" << endl;
-      return;
-    } 
-    // 2: Left
-    else{
-      cout << "E" << endl;
-      tempGrandParent->setLeft(current);
       current->setParent(tempGrandParent);
-      tempParent->setLeft(current->getRight());
-      if(tempParent->getLeft()!=NULL){
-        current->getRight()->setParent(tempParent);
-      }
-      current->setRight(tempParent);
-      tempParent->setParent(current);
-      if(recurseCount == 0){
-        rotate(current,1);
-      }
     }
+    else{
+      cout << "beeno "<< endl;
+      root = current;
+    }
+    cout << "jeans" << endl;
+    tempParent->setRight(current->getLeft());
+    cout << "naj" << endl;
+    current->setLeft(tempParent);
+    if(tempParent->getRight()!=NULL){
+      tempParent->getRight()->setParent(tempParent);
+    }
+    tempParent->setParent(current);
+    current->setColor(0);
+    tempParent->setColor(1);
+    cout << "ham" << endl;
+    if(rotationDir == 3){
+      rotate(current,0,0);
+    }
+    return;
   }
   return;
 }

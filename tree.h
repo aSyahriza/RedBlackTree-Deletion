@@ -12,7 +12,7 @@ public:
   void print();
   void recursePrint(Node*, Node*, int);
   void fixReds(Node*);
-  void rotate(Node*,int);
+  void rotate(Node*,int, int);
 
 private:
   int totalLevels = 0;
