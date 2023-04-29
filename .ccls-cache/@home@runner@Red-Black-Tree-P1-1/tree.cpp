@@ -208,21 +208,38 @@ void Tree::fixReds(Node* current){
 
 
 void Tree::rotate(Node* current, int recurseCount){
+  // 0 = left, 
+  // 1 = right
+  bool willBeRoot = false;
+  bool grandparentDirection;
+  bool childDirection;
   
   cout << "m"<< endl;
   if(current == NULL){
     return;
   }
   cout << "current"<<  current->getValue() <<endl;
-  bool willBeRoot = false;
+  
   cout << "h" << endl;
-  if((current->getRight()->getColor()==0&&current->getLeft()->getColor()==0)||current->getColor()==0){
+  if(current->getColor()==0){
     return;
   }
-  cout << "jones" << endl;
-  // 0 = left, 
-  // 1 = right
-  bool grandparentDirection;
+  if(current->getRight()!=NULL){
+    if(current->getRight()->getColor()==1){
+      childDirection = 1;
+    }
+  }
+  else if(current->getLeft()!=NULL){
+    if(current->getLeft()->getColor()==1){
+      childDirection = 0;
+    }
+  }
+  else{
+    return;
+  }
+  
+  cout << "jink" << endl;
+  
   if(current==root){
     cout << "1" << endl;
     return;
@@ -234,8 +251,8 @@ void Tree::rotate(Node* current, int recurseCount){
   Node* tempGrandParent = current->getParent()->getParent();
   Node* tempParent = current->getParent();
 
+  
   cout << "current: " << current->getValue() << endl;
-  cout << "granny: " << tempGrandParent->getValue() << endl;
    cout << "pawpaw: " << tempParent->getValue() << endl;
 
   // If there will not be issues with root
@@ -249,6 +266,7 @@ void Tree::rotate(Node* current, int recurseCount){
     else{
       grandparentDirection = 0;
     }
+    cout << "granny: " << tempGrandParent->getValue() << endl;
   }
   else{
     willBeRoot = true;
@@ -273,14 +291,20 @@ void Tree::rotate(Node* current, int recurseCount){
       else{
         root = current;
       }
+      cout << "Martin" << endl;
       tempParent->setLeft(current->getRight());
+      cout << "Baby keem" << endl;
+      current->setRight(tempParent);
+      cout << "Jones" << endl;
       if(tempParent->getLeft()!=NULL){
         current->getRight()->setParent(tempParent);
       }
-      current->setRight(tempParent);
+      cout << "Klod" << endl;
       tempParent->setParent(current);
+      cout << "!!!Yea" << endl;
       current->setColor(0);
       tempParent->setColor(1);
+      return;
       // If second recursion
       // This code is weird
       /*

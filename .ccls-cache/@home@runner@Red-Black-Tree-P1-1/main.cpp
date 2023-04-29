@@ -21,7 +21,7 @@ int main() {
 
   char* name = new char[20];
   strcpy(name,"file.txt");
-  myTree.addFile(name);
+  // myTree.addFile(name);
   
   while(loop){
     cin.get(command,20,'\n');
