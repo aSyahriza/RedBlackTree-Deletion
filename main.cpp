@@ -16,8 +16,12 @@ int main() {
   char command[20];
   char* fileName = new char[20];
 
+  
+
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
   cout << "\n" << endl;
+
+  myTree.testFunction();
 
   char* name = new char[20];
   strcpy(name,"file.txt");
