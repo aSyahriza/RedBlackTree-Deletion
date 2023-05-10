@@ -25,7 +25,7 @@ int main() {
 
   char* name = new char[20];
   strcpy(name,"file.txt");
-  // myTree.addFile(name);
+  myTree.addFile(name);
   
   while(loop){
     cin.get(command,20,'\n');
@@ -50,8 +50,31 @@ int main() {
       cin.clear();
       cin.ignore(99999,'\n');
       myTree.addFile(fileName);
+
+      
+    }
+
+    if(strcmp(command, "DELETE") == 0){
+      cout << "Enter a number to delete: "<< endl;
+      int num;
+      cin >> num;
+      myTree.deleteNode(num);
       cout << "\n";
       
+    }
+
+    
+    if(strcmp(command, "SEARCH") == 0){
+      cout << "Enter a number to search: " << endl;
+      int num;
+      cin >> num;
+      if(myTree.searchTree(myTree.getRoot(),num)){
+        cout << "Number found! " << endl;
+      }
+      else{
+        cout << "Unable to find number. " << endl;
+      }
+      cout << endl;
     }
    
     // Check if the user wants to print the tree

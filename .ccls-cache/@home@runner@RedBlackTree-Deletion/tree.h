@@ -15,6 +15,9 @@ public:
   void fixReds(Node*);
   void rotate(Node*,int, int);
   void testFunction();
+  void blackDeletion(Node* uNode,Node* sNode,Node* pNode);
+  bool searchTree(Node* current, int num);
+  Node* getRoot();
 
 private:
   int totalLevels = 0;
