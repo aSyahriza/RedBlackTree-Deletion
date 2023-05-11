@@ -21,11 +21,17 @@ int main() {
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
   cout << "\n" << endl;
 
-  myTree.testFunction();
+  
+  // myTree.testFunction();
 
   char* name = new char[20];
   strcpy(name,"file.txt");
   myTree.addFile(name);
+  myTree.print();
+  myTree.deleteNode(35);
+  myTree.print();
+  myTree.deleteNode(20);
+  myTree.print();
   
   while(loop){
     cin.get(command,20,'\n');

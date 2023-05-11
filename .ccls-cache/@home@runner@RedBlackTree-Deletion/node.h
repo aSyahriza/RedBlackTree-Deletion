@@ -11,6 +11,8 @@ public:
   void setLeft(Node*);
   void setRight(Node*);
   void setParent(Node*);
+  void setValue(int);
+  int getType(Node*);
   int getValue();
   int getColor();
   Node* getLeft();

@@ -35,12 +35,32 @@ void Node::setRight(Node* pRight){
 void Node::setParent(Node* pParent){
   parent = pParent;
 }
+
+void Node::setValue(int pValue){
+  value = pValue;
+}
 int Node::getValue(){
   return value;
 }
 int Node::getColor(){
   return color;
 }
+
+int Node::getType(Node* current){
+  if(current==NULL){
+    return 2;
+  }
+  else if(current->getColor()==0){
+    return 0;
+  }
+  else if(current->getColor()==1){
+    return 1;
+  }
+  else{
+    return -1;
+  }
+}
+
 Node* Node::getLeft(){
     return left;
   }
@@ -51,6 +71,7 @@ Node* Node::getLeft(){
     return parent;
   }
 
+  
 
 /*
 

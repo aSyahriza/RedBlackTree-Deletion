@@ -377,6 +377,14 @@ void Tree::deleteNode(int valueToDelete){
     while(successor->getLeft()!=NULL){
       successor = successor->getLeft();
     }
+    int tempValue = temp->getValue();
+    temp->setValue(successor->getValue());
+    successor->setValue(tempValue);
+
+    temp = successor;
+    cout << "temp value: " <<  temp->getValue();
+    cout << "temp parents value: " << temp->getParent()->getValue();
+    print();
     // Need to swap successor and temp, idk how yet
     //  
   }
@@ -389,12 +397,7 @@ void Tree::deleteNode(int valueToDelete){
     cout << "5" << endl;
     ///////////////////// Can I replace this with uNode = NULL? 
     // Setting U as the node that replaces temp
-    if(pNode->getLeft()==temp){
-      uNode = pNode->getLeft();
-    }
-    else{
-      uNode = pNode->getRight();
-    }
+    uNode = NULL;
     
   }
   // If temp has one child
@@ -408,41 +411,79 @@ void Tree::deleteNode(int valueToDelete){
       uNode = temp->getRight();
     }
   }
+  cout << "temp value: " << temp->getValue() << endl;
+  if(uNode!=NULL){
+    cout << "uNode value: " << uNode->getValue() << endl;  
+  }
+  else{
+    cout << "UNode is null" << endl;
+  }
+  
 
   // Replaces V(temp) with U
   if(pNode->getLeft()==temp){
+    cout << "ASKJ" << endl;
     pNode->setLeft(uNode);
     sNode = pNode->getRight();
-
+    cout << "DHSAD1" << endl;
   }
   else{
     pNode->setRight(uNode);
+    cout << "powwl" << endl;
     sNode = pNode->getLeft();
-
+    
+  }
+  if(sNode!=NULL){
+    cout << "seetlejuice: " << sNode->getValue() << endl;
+  }
+  cout << "peetlejuice: " << pNode->getValue() << endl;
+  
+  if(uNode!=NULL){
+    uNode->setParent(pNode);  
   }
   
+  cout << "DHSAD2" << endl;
   // If either U or V is red
-  if(temp->getColor()==1||uNode->getColor()==1){
-    
-    uNode->setColor(0);
+  if(temp->getColor()==1||uNode!=NULL && uNode->getColor()==1){
+    cout << "sladkl" << endl;
+    if(uNode!=NULL){ 
+      uNode->setColor(0);
+    }
   }
   // both are black
   else{
-    uNode->setColor(-1);
+    cout << "DHSAD3" << endl;
+    if(uNode!=NULL){
+      uNode->setColor(-1);
+    }
+
+    
+    
     blackDeletion(uNode, sNode, pNode);
   }
   //if(temp->get)
 }
 
 void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
+  if(uNode!=NULL){
+    cout << "uNode valueeee: " << uNode->getValue() << endl;
+  }
+  if(sNode!=NULL){
+    cout << "sNode valueeee: " << sNode->getValue() << endl;
+  }
+  if(pNode!=NULL){
+    cout << "pNode valueeee: " << pNode->getValue() << endl;
+  }
+
+  sNode->getLeft()==nullptr? 'b' : sNode->getLeft()->getColor();
   // Need to have return cases
   Node* rNode;
   // If sibling is black and has a red child
   cout << "AHHH AHHHH" << endl;
-  if((sNode->getColor()==0)&&((sNode->getLeft()->getColor()==1)||sNode->getRight()->getColor()==1)){
+  if((sNode->getColor()==0)&&((sNode->getLeft()!=NULL&&sNode->getLeft()->getColor()==1)||sNode->getRight()!=NULL&&sNode->getRight()->getColor()==1)){
     // ___, then left
     cout << "1" << endl;
-    if(sNode->getLeft()->getColor()==1){
+    if(sNode->getLeft()!=NULL&&sNode->getLeft()->getColor()==1){
       rNode = sNode->getLeft();
       cout << "1A" << endl;
       // Left, then left
