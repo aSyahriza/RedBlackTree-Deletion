@@ -377,6 +377,7 @@ void Tree::deleteNode(int valueToDelete){
     while(successor->getLeft()!=NULL){
       successor = successor->getLeft();
     }
+    // Swaps the values of the node to delete with its in order successor 
     int tempValue = temp->getValue();
     temp->setValue(successor->getValue());
     successor->setValue(tempValue);
@@ -465,6 +466,7 @@ void Tree::deleteNode(int valueToDelete){
 }
 
 void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
+  
   if(uNode!=NULL){
     cout << "uNode valueeee: " << uNode->getValue() << endl;
   }
@@ -477,9 +479,14 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
 
   sNode->getLeft()==nullptr? 'b' : sNode->getLeft()->getColor();
   // Need to have return cases
+  if(uNode!=NULL &&uNode->getColor()==1){
+    return;
+  }
   Node* rNode;
   // If sibling is black and has a red child
   cout << "AHHH AHHHH" << endl;
+  print();
+  // return;
   if((sNode->getColor()==0)&&((sNode->getLeft()!=NULL&&sNode->getLeft()->getColor()==1)||sNode->getRight()!=NULL&&sNode->getRight()->getColor()==1)){
     // ___, then left
     cout << "1" << endl;
@@ -496,6 +503,10 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
         cout << "1AII" << endl;
         rotate(rNode,0,3);
       }
+      sNode->setColor(1);
+      pNode->setColor(0);
+      sNode->getLeft()->setColor(0);
+      return;
     }
     // ___, then right
     else{
@@ -511,12 +522,18 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
         cout << "1BII" << endl;
         rotate(sNode,0,2);
       }
+      sNode->setColor(1);
+      pNode->setColor(0);
+      sNode->getRight()->setColor(0);
+      return;
     }    
   }
   // If S is black and its nodes are black
-  if((sNode->getColor()==0)&&(sNode->getRight()->getColor()==0||sNode->getRight()==NULL)&&(sNode->getLeft()->getColor()==0||sNode->getLeft()==NULL)){
+  else if((sNode->getColor()==0)){
     cout << "2" << endl;
-    uNode->setColor(0);
+    if(uNode!=NULL){
+      uNode->setColor(0);  
+    }
     sNode->setColor(1);
     if(pNode->getColor()==1){
       cout << "2A" << endl;
@@ -525,16 +542,25 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
     else if(pNode->getColor()==0){
       cout << "2B" << endl;
       pNode->setColor(-1);
+      // return;
       if(pNode->getParent()->getLeft()==pNode){
         cout << "2BI" << endl;
         blackDeletion(pNode,pNode->getParent()->getRight(),pNode->getParent());
+        return;
       }
       else{
         cout << "2BII" << endl;
         blackDeletion(pNode,pNode->getParent()->getLeft(),pNode->getParent());
+        return;
       }
     }
+    // Extraneous
+    print();
+    return;
+    ///
   }
+  print();
+  cout << "0234800394" << endl;
   // If S is red
   if(sNode->getColor()==1){
     cout << "3" << endl;

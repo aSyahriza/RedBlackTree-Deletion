@@ -27,11 +27,21 @@ int main() {
   char* name = new char[20];
   strcpy(name,"file.txt");
   myTree.addFile(name);
+  cout << "Base tree: " << endl;
   myTree.print();
   myTree.deleteNode(35);
+  cout << "Delete 35: " << endl;
   myTree.print();
   myTree.deleteNode(20);
+  cout << "Delete 20: " << endl;
   myTree.print();
+  myTree.deleteNode(150);
+  cout << "Delete 150: " << endl;
+  myTree.print();
+  myTree.deleteNode(120);
+  cout << "Delete 120: " << endl;
+  myTree.print();
+  
   
   while(loop){
     cin.get(command,20,'\n');
