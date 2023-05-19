@@ -17,6 +17,8 @@ int main() {
   char* fileName = new char[20];
 
   
+  
+  
 
   cout << "Enter ADD, ADD BY FILE, PRINT, or QUIT" << endl;
   cout << "\n" << endl;
@@ -26,6 +28,7 @@ int main() {
 
   char* name = new char[20];
   strcpy(name,"file.txt");
+  /*
   myTree.addFile(name);
   cout << "Base tree: " << endl;
   myTree.print();
@@ -41,6 +44,7 @@ int main() {
   myTree.deleteNode(120);
   cout << "Delete 120: " << endl;
   myTree.print();
+  */
   
   
   while(loop){

@@ -343,6 +343,7 @@ void Tree::deleteNode(int valueToDelete){
   Node* uNode;
   Node* pNode;
   Node* sNode;
+  bool toDeleteRoot;
 
   // If not in tree
   if(!searchTree(root,valueToDelete)){
@@ -352,8 +353,9 @@ void Tree::deleteNode(int valueToDelete){
   cout << "1" << endl;
   // If deleting root
   if(root->getValue()==valueToDelete){
-    
+    toDeleteRoot = true;
   }
+  
   cout << "2" << endl;
   // Find value of the node
   while(temp->getValue()!=valueToDelete){
@@ -381,10 +383,12 @@ void Tree::deleteNode(int valueToDelete){
     int tempValue = temp->getValue();
     temp->setValue(successor->getValue());
     successor->setValue(tempValue);
+    
 
     temp = successor;
     cout << "temp value: " <<  temp->getValue();
     cout << "temp parents value: " << temp->getParent()->getValue();
+    
     print();
     // Need to swap successor and temp, idk how yet
     //  
@@ -422,6 +426,9 @@ void Tree::deleteNode(int valueToDelete){
   
 
   // Replaces V(temp) with U
+  if(toDeleteRoot){
+    
+  }
   if(pNode->getLeft()==temp){
     cout << "ASKJ" << endl;
     pNode->setLeft(uNode);
@@ -466,6 +473,12 @@ void Tree::deleteNode(int valueToDelete){
 }
 
 void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
+
+  bool toBecomeRoot;
+
+  if(pNode==root){
+    toBecomeRoot = true;
+  }
   
   if(uNode!=NULL){
     cout << "uNode valueeee: " << uNode->getValue() << endl;
@@ -476,6 +489,8 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
   if(pNode!=NULL){
     cout << "pNode valueeee: " << pNode->getValue() << endl;
   }
+
+  
 
   sNode->getLeft()==nullptr? 'b' : sNode->getLeft()->getColor();
   // Need to have return cases
@@ -564,10 +579,12 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode){
   // If S is red
   if(sNode->getColor()==1){
     cout << "3" << endl;
+    // If sNode is the left sibling
     if(pNode->getLeft()==sNode){
       cout << "3A" << endl;
       rotate(sNode,0,0);
     }
+    // If sNode is the right sibling
     else{
       cout << "3B" << endl;
       rotate(sNode,0,2);
@@ -582,5 +599,4 @@ void Tree::testFunction(){
   if(root->getValue() == 3|| root->getLeft()==NULL ){
     cout << "!M!!MM!"<< endl;
   }
-  
 }
