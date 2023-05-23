@@ -26,6 +26,14 @@ int main() {
   
   // myTree.testFunction();
 
+  /*
+  myTree.add(75);
+  myTree.add(100);
+  myTree.add(50);
+  myTree.add(90);
+  myTree.print();
+  */
+  /*
   char* name = new char[20];
   strcpy(name,"file.txt");
   
@@ -50,8 +58,7 @@ int main() {
   myTree.deleteNode(125);
   cout << "Delete 125: " << endl;
   myTree.print();
-  
-  
+  */
   
   
   while(loop){
