@@ -1,10 +1,3 @@
-/*
-* Author: Allam Syahriza
-* Date: 5/23/23
-* Project: Red Black Tree Deletion
-* This program creates a Red-Black binary tree of values, 
-* with the ability to insert and delete values.
-*/
 
 #include "tree.h"
 #include <fstream>
