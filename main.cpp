@@ -15,7 +15,7 @@ int main() {
   Tree myTree;
   char command[20];
   char* fileName = new char[20];
-
+  
   
   
   
@@ -33,7 +33,7 @@ int main() {
   myTree.add(90);
   myTree.print();
   */
-  /*
+  
   char* name = new char[20];
   strcpy(name,"file.txt");
   
@@ -58,7 +58,7 @@ int main() {
   myTree.deleteNode(125);
   cout << "Delete 125: " << endl;
   myTree.print();
-  */
+  
   
   
   while(loop){

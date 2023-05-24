@@ -277,6 +277,7 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
     else{
       cout << "aaa" << endl;
       root = current;
+      current->setParent(NULL);
     }
     cout << "bbb" << endl;
     tempParent->setLeft(current->getRight());
@@ -312,6 +313,7 @@ void Tree::rotate(Node* current, int recurseCount, int rotationDir){
     }
     else{
       root = current;
+      current->setParent(NULL);
     }
     tempParent->setRight(current->getLeft());
     current->setLeft(tempParent);
@@ -389,7 +391,13 @@ void Tree::deleteNode(int valueToDelete){
   // If deleting root
   if(root->getValue()==valueToDelete){
     toDeleteRoot = true;
+    if(numOfNodes==1){
+      root=NULL;
+      numOfNodes=0;
+      return;
+    }
   }
+  
   
   cout << "2" << endl;
   // Find value of the node
@@ -430,7 +438,7 @@ void Tree::deleteNode(int valueToDelete){
   }
 
   cout << "temp value: " <<  temp->getValue();
-  cout << "temp parents value: " << temp->getParent()->getValue() << endl;
+  // cout << "temp parents value: " << temp->getParent()->getValue() << endl;
 
   pNode = temp->getParent();
   
@@ -466,6 +474,7 @@ void Tree::deleteNode(int valueToDelete){
   if(temp==root){
     cout << "Yeah it is !!! <, Yes it is. Yeah. It is" << endl;
     root=uNode;
+    uNode->setParent(NULL);
     numOfNodes--;
     if(root!=NULL){
       root->setColor(0);
@@ -538,9 +547,10 @@ void Tree::deleteNode(int valueToDelete){
 
 void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode,int count){
 
+
   
   cout << "Black function" << endl;
-  if(count==2){
+  if(uNode==root){
     cout << "TOo much recursion. Too much." << endl;
     return;
   }
@@ -636,14 +646,14 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode,int count){
     }
     else if(pNode->getColor()==0){
       cout << "2B" << endl;
-      pNode->setColor(-1);
+      pNode->setColor(0);
       // return;
-      if(pNode->getParent()->getLeft()==pNode){
+      if(pNode->getParent()!=NULL&&pNode->getParent()->getLeft()==pNode){
         cout << "2BI" << endl;
         blackDeletion(pNode,pNode->getParent()->getRight(),pNode->getParent(),++count);
         return;
       }
-      else{
+      else if(pNode->getParent()!=NULL&&pNode->getParent()->getParent()==pNode){
         cout << "2BII" << endl;
         blackDeletion(pNode,pNode->getParent()->getLeft(),pNode->getParent(),++count);
         return;
@@ -656,11 +666,18 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode,int count){
   }
   print();
   cout << "0234800394" << endl;
+  
   // If S is red
   if(sNode->getColor()==1){
     cout << "3" << endl;
+    Node* tempUNode;
+    Node* tempSibling;
+    int leftRight;
     // If sNode is the left sibling
     if(pNode->getLeft()==sNode){
+      leftRight = 0;
+      tempUNode=pNode->getRight();
+      tempSibling = sNode->getRight();
       cout << "3A" << endl;
       rotate(sNode,0,0);
       cout << "This is whats going on pt2: " << endl;
@@ -668,6 +685,9 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode,int count){
     }
     // If sNode is the right sibling
     else{
+      leftRight = 1;
+      tempUNode=pNode->getLeft();
+      tempSibling = sNode->getLeft();
       cout << "3B" << endl;
       rotate(sNode,0,2);
     }
@@ -688,12 +708,7 @@ void Tree::blackDeletion(Node *uNode, Node *sNode, Node *pNode,int count){
     }
     // Recurses if uNode isnt root and is black/*
     if(uNode!=root&&(uNode==NULL||uNode->getColor()==0)){
-      if(uNode->getParent()->getLeft()==uNode){
-        blackDeletion(uNode, uNode->getParent(), uNode->getParent()->getRight(),++count);
-      } 
-      else{
-        blackDeletion(uNode, uNode->getParent(), uNode->getParent()->getLeft(),++count);
-      }
+      blackDeletion(tempUNode, tempSibling, pNode ,++count);
     }
     cout << "Yeah" << endl;
   }
