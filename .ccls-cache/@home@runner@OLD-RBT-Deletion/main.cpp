@@ -17,49 +17,10 @@ int main() {
   char* fileName = new char[20];
   
   
-  
-  
-
-  cout << "Enter ADD, ADD BY FILE, PRINT, TEST, or QUIT" << endl;
+  cout << "Enter ADD, ADD BY FILE, DELETE, PRINT, SEARCH, or QUIT" << endl;
   cout << "\n" << endl;
 
-  
-  // myTree.testFunction();
 
-  /*
-  myTree.add(75);
-  myTree.add(100);
-  myTree.add(50);
-  myTree.add(90);
-  myTree.print();
-  */
-  
-  char* name = new char[20];
-  strcpy(name,"file.txt");
-  
-  myTree.addFile(name);
-  cout << "Base tree: " << endl;
-  myTree.print();
-  myTree.deleteNode(35);
-  cout << "Delete 35: " << endl;
-  myTree.print();
-  myTree.deleteNode(20);
-  cout << "Delete 20: " << endl;
-  myTree.print();
-  myTree.deleteNode(150);
-  cout << "Delete 150: " << endl;
-  myTree.print();
-  myTree.deleteNode(120);
-  cout << "Delete 120: " << endl;
-  myTree.print();
-  myTree.deleteNode(200);
-  cout << "Delete 200: " << endl;
-  myTree.print();
-  myTree.deleteNode(125);
-  cout << "Delete 125: " << endl;
-  myTree.print();
-  
-  
   
   while(loop){
     cin.get(command,20,'\n');
@@ -72,7 +33,6 @@ int main() {
       int num;
       cin >> num;
       myTree.add(num);
-      
       cout << "Value has been added." << endl;
       cout << "\n";
     }
@@ -83,9 +43,7 @@ int main() {
       cin.get(fileName,20,'\n');
       cin.clear();
       cin.ignore(99999,'\n');
-      myTree.addFile(fileName);
-
-      
+      myTree.addFile(fileName); 
     }
 
     if(strcmp(command, "DELETE") == 0){
@@ -93,10 +51,8 @@ int main() {
       int num;
       cin >> num;
       myTree.deleteNode(num);
-      cout << "\n";
-      
+      cout << "\n"; 
     }
-
     
     if(strcmp(command, "SEARCH") == 0){
       cout << "Enter a number to search: " << endl;
@@ -120,9 +76,6 @@ int main() {
     // Quit
     if(strcmp(command, "QUIT") == 0){
       loop = false;
-    }
-    if(strcmp(command, "TEST") == 0){
-      myTree.testFunction();
     }
   }  
   
